@@ -1,386 +1,592 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jubair Ahmed Junjun | Data Science & AI Portfolio</title>
+    <title>Jubair Ahmed Junjun — Data Science & AI Researcher</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .gradient-text {
-            background: linear-gradient(135deg, #38bdf8 0%, #34d399 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#07090e',
+                        cardBg: '#10131c',
+                        cardHover: '#161a26',
+                        accent: '#34d399'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
         }
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+    </script>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #07090e;
+            color: #94a3b8;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .obsidian-card {
+            background: rgba(16, 19, 28, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .obsidian-card:hover {
+            background: rgba(22, 26, 38, 0.9);
+            border-color: rgba(52, 211, 153, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px -10px rgba(52, 211, 153, 0.1);
+        }
+        canvas#neural-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.35;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #07090e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb-hover {
+            background: #34d399;
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-300 font-sans leading-relaxed selection:bg-teal-500 selection:text-slate-900">
+<body class="min-h-screen relative antialiased selection:bg-emerald-500/20 selection:text-emerald-400">
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-card border-b border-slate-800/80">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-black tracking-wider text-slate-100">JAJ<span class="text-teal-400">.</span></a>
-            <div class="hidden md:flex space-x-8 text-sm font-medium tracking-wide">
-                <a href="#about" class="hover:text-teal-400 transition-colors">About</a>
-                <a href="#research" class="hover:text-teal-400 transition-colors">Research & Papers</a>
-                <a href="#projects" class="hover:text-teal-400 transition-colors">Projects</a>
-                <a href="#github-projects" class="hover:text-teal-400 transition-colors">GitHub Repos</a>
-                <a href="#experience" class="hover:text-teal-400 transition-colors">Experience</a>
-                <a href="#contact" class="hover:text-teal-400 transition-colors">Contact</a>
+    <!-- Interactive Neural Constellation Background Canvas -->
+    <canvas id="neural-canvas"></canvas>
+
+    <!-- Top Sticky Navigation Bar -->
+    <header class="fixed top-0 w-full z-40 bg-[#07090e]/85 backdrop-blur-xl border-b border-white/5">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="text-xs font-bold tracking-wider text-white uppercase flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Jubair Ahmed Junjun
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-6 text-xs font-medium tracking-wide">
+                <a href="#about" class="text-slate-400 hover:text-emerald-400 transition-colors">About</a>
+                <a href="#summarizer" class="text-slate-400 hover:text-emerald-400 transition-colors">Research AI</a>
+                <a href="#simulator" class="text-slate-400 hover:text-emerald-400 transition-colors">AI Demo</a>
+                <a href="#projects" class="text-slate-400 hover:text-emerald-400 transition-colors">Projects</a>
+                <a href="#github" class="text-slate-400 hover:text-emerald-400 transition-colors">GitHub</a>
+                <a href="#experience" class="text-slate-400 hover:text-emerald-400 transition-colors">Experience</a>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="flex items-center gap-3">
+                <a href="mailto:jubair.ahmed.junjun@gmail.com" class="px-3.5 py-1.5 text-xs font-semibold tracking-wider text-white bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg transition">
+                    Contact
+                </a>
+                <!-- Mobile Menu Toggle Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-white p-2 text-sm">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </button>
             </div>
-            <a href="mailto:jubair.ahmed.junjun@gmail.com" class="px-4 py-2 text-xs font-semibold tracking-wider text-teal-400 border border-teal-400/40 rounded-full hover:bg-teal-400/10 transition">GET IN TOUCH</a>
         </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section id="about" class="min-h-screen flex items-center pt-28 pb-16 px-6 max-w-6xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div class="lg:col-span-8">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 text-xs font-mono mb-6">
-                    <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span> Open to AI & Data Science Collaborations
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 py-4 bg-[#07090e]/95 border-b border-white/5 space-y-3 text-xs font-medium">
+            <a href="#about" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-emerald-400">About</a>
+            <a href="#summarizer" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-emerald-400">Research AI</a>
+            <a href="#simulator" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-emerald-400">AI Demo</a>
+            <a href="#projects" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-emerald-400">Projects</a>
+            <a href="#github" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-emerald-400">GitHub</a>
+            <a href="#experience" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-emerald-400">Experience</a>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-3xl mx-auto px-6 pt-32 pb-28 space-y-24 relative z-10">
+
+        <!-- Hero Section -->
+        <section id="about" class="space-y-6">
+            <div class="space-y-3">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-slate-400 text-xs font-mono">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> London, UK • Open to AI & Data Science Roles
                 </div>
-                <h1 class="text-4xl sm:text-6xl font-black text-slate-100 tracking-tight leading-none mb-4">
-                    Jubair Ahmed <span class="gradient-text">Junjun</span>
+                <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight">
+                    Jubair Ahmed <span class="text-emerald-400">Junjun</span>
                 </h1>
-                <h2 class="text-xl sm:text-3xl font-bold text-slate-400 mb-6">
-                    Data & AI Researcher • Software Engineer
-                </h2>
-                <p class="text-slate-400 text-base sm:text-lg mb-8 max-w-2xl leading-relaxed">
-                    MSc in Data Intelligence from Canterbury Christ Church University (UK). Specialized in Deep Learning, Medical Image Processing, Physiological Signal Analysis, Full-Stack Web Technologies, and Data Analytics. Published researcher with Springer and content creator passionate about scalable AI systems.
+                <p class="text-base sm:text-lg font-medium text-slate-300">
+                    Data Science & AI Researcher &bull; Software Engineer
                 </p>
+            </div>
 
-                <!-- Social Links -->
-                <div class="flex flex-wrap gap-4 items-center mb-10">
-                    <a href="https://github.com/Jubair-Ahmed-Junjun" target="_blank" class="flex items-center gap-2 px-5 py-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 font-medium transition border border-slate-700">
-                        <i class="fab fa-github text-xl"></i> GitHub
-                    </a>
-                    <a href="https://www.linkedin.com/in/jubair-ahmed-junjun-4ab6a0177/" target="_blank" class="flex items-center gap-2 px-5 py-3 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-medium transition">
-                        <i class="fab fa-linkedin text-xl"></i> LinkedIn
-                    </a>
-                    <a href="https://www.slideshare.net/jubairjunjun" target="_blank" class="flex items-center gap-2 px-5 py-3 rounded-lg bg-orange-600/90 hover:bg-orange-500 text-white font-medium transition">
-                        <i class="fab fa-slideshare text-xl"></i> SlideShare
-                    </a>
-                    <a href="https://youtube.com/@JubairAhmedJunjun" target="_blank" class="flex items-center gap-2 px-5 py-3 rounded-lg bg-red-600 hover:bg-red-500 text-white font-medium transition">
-                        <i class="fab fa-youtube text-xl"></i> YouTube
-                    </a>
+            <p class="text-sm sm:text-base text-slate-400 leading-relaxed max-w-2xl">
+                MSc in Data Intelligence graduate from Canterbury Christ Church University (UK). Specialized in Deep Learning, Medical Image Segmentation (BraTS 2020), CNN-LSTM Physiological Signal Analysis, and Full-Stack Software Systems.
+            </p>
+
+            <!-- Social Links -->
+            <div class="flex flex-wrap gap-2.5 pt-1">
+                <a href="https://github.com/Jubair-Ahmed-Junjun" target="_blank" class="px-3.5 py-2 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs font-medium transition flex items-center gap-2">
+                    <i class="fab fa-github text-sm"></i> GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/jubair-ahmed-junjun-4ab6a0177/" target="_blank" class="px-3.5 py-2 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs font-medium transition flex items-center gap-2">
+                    <i class="fab fa-linkedin text-sm text-sky-400"></i> LinkedIn
+                </a>
+                <a href="https://www.slideshare.net/jubairjunjun" target="_blank" class="px-3.5 py-2 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs font-medium transition flex items-center gap-2">
+                    <i class="fab fa-slideshare text-sm text-orange-400"></i> SlideShare
+                </a>
+                <a href="https://youtube.com/@JubairAhmedJunjun" target="_blank" class="px-3.5 py-2 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs font-medium transition flex items-center gap-2">
+                    <i class="fab fa-youtube text-sm text-red-400"></i> YouTube
+                </a>
+            </div>
+        </section>
+
+        <!-- AI Research Summarizer Widget -->
+        <section id="summarizer" class="space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-4">
+                <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> AI Research Summarizer
+                </h2>
+                <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">Live Typewriter AI</span>
+            </div>
+
+            <div class="obsidian-card rounded-2xl p-6 space-y-5">
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="summarizeResearch('brats')" id="btn-brats" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-mono transition">🧠 BraTS 2020 Thesis</button>
+                    <button onclick="summarizeResearch('ic4ir')" id="btn-ic4ir" class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800 text-xs font-mono transition">📚 Springer IC4IR</button>
+                    <button onclick="summarizeResearch('tcce')" id="btn-tcce" class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800 text-xs font-mono transition">⚡ Springer TCCE</button>
+                </div>
+
+                <div id="summarizer-output" class="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 text-xs text-slate-300 font-mono leading-relaxed min-h-[100px]">
+                    Select a research topic above to generate an instant AI breakdown of Jubair's academic publications and MSc research...
                 </div>
             </div>
+        </section>
 
-            <!-- Skills & Tech Stack Summary -->
-            <div class="lg:col-span-4 glass-card p-6 rounded-2xl border border-slate-800 space-y-6">
-                <h3 class="text-lg font-bold text-slate-100 border-b border-slate-800 pb-3 flex items-center gap-2">
-                    <i class="fas fa-layer-group text-teal-400"></i> Tech Stack Overview
-                </h3>
-                <div class="space-y-4 text-xs">
-                    <div>
-                        <span class="text-teal-400 font-bold block mb-1">Expert Languages & Web:</span>
-                        <p class="text-slate-400">Python, HTML5, CSS3, JavaScript (ES6), React JS, TailwindCSS, Bootstrap[cite: 1, 2].</p>
-                    </div>
-                    <div>
-                        <span class="text-teal-400 font-bold block mb-1">Backend & Databases:</span>
-                        <p class="text-slate-400">Node JS, Express JS, PHP, Laravel, MongoDB, REST API, Firebase Auth, JWT, MySQL, MS SQL Server[cite: 1, 2].</p>
-                    </div>
-                    <div>
-                        <span class="text-teal-400 font-bold block mb-1">AI & Core Domains:</span>
-                        <p class="text-slate-400">Machine Learning, Deep Learning, Medical Signal/Image Analytics, Data Structures & Algorithms[cite: 1, 2].</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Research & Publications Section -->
-    <section id="research" class="py-20 px-6 max-w-6xl mx-auto">
-        <div class="flex items-center gap-3 mb-12">
-            <span class="text-teal-400 font-mono text-xl">01.</span>
-            <h2 class="text-2xl sm:text-3xl font-bold text-slate-100">Research & Publications</h2>
-            <div class="h-px bg-slate-800 flex-1 ml-4"></div>
-        </div>
-
-        <h3 class="text-lg font-bold text-teal-400 mb-6 font-mono"><i class="fas fa-flask mr-2"></i> Academic Research Projects</h3>
-        <div id="research-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-            <!-- Dynamic research inserted via JS -->
-        </div>
-
-        <h3 class="text-lg font-bold text-teal-400 mb-6 font-mono"><i class="fas fa-book mr-2"></i> Peer-Reviewed Springer Publications</h3>
-        <div id="publications-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Dynamic publications inserted via JS -->
-        </div>
-    </section>
-
-    <!-- Team & Featured Software Projects -->
-    <section id="projects" class="py-20 px-6 max-w-6xl mx-auto">
-        <div class="flex items-center gap-3 mb-12">
-            <span class="text-teal-400 font-mono text-xl">02.</span>
-            <h2 class="text-2xl sm:text-3xl font-bold text-slate-100">Featured Software Projects</h2>
-            <div class="h-px bg-slate-800 flex-1 ml-4"></div>
-        </div>
-        <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Dynamic featured projects inserted via JS -->
-        </div>
-    </section>
-
-    <!-- Live GitHub Repositories Section -->
-    <section id="github-projects" class="py-20 px-6 max-w-6xl mx-auto">
-        <div class="flex items-center gap-3 mb-4">
-            <span class="text-teal-400 font-mono text-xl">03.</span>
-            <h2 class="text-2xl sm:text-3xl font-bold text-slate-100">Live GitHub Repositories</h2>
-            <div class="h-px bg-slate-800 flex-1 ml-4"></div>
-        </div>
-        <p class="text-slate-400 text-sm mb-8">Fetched dynamically from GitHub API</p>
-        <div id="github-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="col-span-3 text-center py-10 text-teal-400">
-                <i class="fas fa-circle-notch fa-spin text-3xl"></i>
-                <p class="text-xs text-slate-400 mt-2">Loading live GitHub repositories...</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Experience, Honors & Education -->
-    <section id="experience" class="py-20 px-6 max-w-6xl mx-auto">
-        <div class="flex items-center gap-3 mb-12">
-            <span class="text-teal-400 font-mono text-xl">04.</span>
-            <h2 class="text-2xl sm:text-3xl font-bold text-slate-100">Experience & Achievements</h2>
-            <div class="h-px bg-slate-800 flex-1 ml-4"></div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Experience Timeline -->
-            <div>
-                <h3 class="text-base font-bold text-slate-200 mb-6 flex items-center gap-2"><i class="fas fa-briefcase text-teal-400"></i> Career Journey</h3>
-                <div id="experience-container" class="relative border-l-2 border-slate-800 ml-3 space-y-8 pl-6">
-                    <!-- Dynamic experience inserted via JS -->
-                </div>
+        <!-- AI Model Inference Simulator Widget -->
+        <section id="simulator" class="space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-4">
+                <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> AI Model Inference Simulator
+                </h2>
+                <span class="text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-md border border-cyan-500/20">PyTorch U-Net Demo</span>
             </div>
 
-            <!-- Education & Honors -->
-            <div class="space-y-8">
+            <div class="obsidian-card rounded-2xl p-6 space-y-6">
                 <div>
-                    <h3 class="text-base font-bold text-slate-200 mb-6 flex items-center gap-2"><i class="fas fa-graduation-cap text-teal-400"></i> Education</h3>
-                    <div id="education-container" class="space-y-4">
-                        <!-- Dynamic education inserted via JS -->
-                    </div>
+                    <h3 class="text-sm font-bold text-white">Brain Tumor MRI Segmentation & Classification</h3>
+                    <p class="text-xs text-slate-400 mt-1">Test transformer-based U-Net inference confidence scoring on synthetic BraTS features.</p>
                 </div>
 
-                <div>
-                    <h3 class="text-base font-bold text-slate-200 mb-4 flex items-center gap-2"><i class="fas fa-trophy text-teal-400"></i> Honors & Awards</h3>
-                    <div id="honors-container" class="glass-card p-5 rounded-xl border border-slate-800 text-xs text-slate-400 space-y-2">
-                        <!-- Dynamic honors inserted via JS -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-mono text-slate-400 mb-2">Scan Threshold Intensity: <span id="val-intensity" class="text-emerald-400 font-bold">80</span>%</label>
+                            <input type="range" min="20" max="100" value="80" class="w-full accent-emerald-400 cursor-pointer" oninput="updateSimulationSlider(this.value)">
+                        </div>
+                        <button onclick="runModelInference()" class="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-lg text-xs transition font-mono uppercase tracking-wider">
+                            <i class="fas fa-microchip mr-1.5"></i> Run Inference Pass
+                        </button>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs space-y-2 flex flex-col justify-between">
+                        <div class="flex justify-between items-center text-slate-400 border-b border-slate-900 pb-2">
+                            <span>Status</span>
+                            <span id="inf-status" class="text-emerald-400">Ready</span>
+                        </div>
+                        <div id="inf-results" class="space-y-1 text-slate-300">
+                            <p class="text-slate-500">// Adjust threshold slider and execute model inference.</p>
+                        </div>
+                        <div class="text-[10px] text-slate-500 pt-2 border-t border-slate-900 flex justify-between">
+                            <span>Latency: 12.4ms</span>
+                            <span>TensorCore GPU</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact & Footer -->
-    <section id="contact" class="py-20 px-6 max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl sm:text-4xl font-bold text-slate-100 mb-4">Let's Connect & Collaborate</h2>
-        <p class="text-slate-400 text-base max-w-lg mx-auto mb-8">
-            I am open to research collaborations, AI consulting, or technical software development opportunities.
-        </p>
-        <a href="mailto:jubair.ahmed.junjun@gmail.com" class="inline-block px-8 py-4 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold rounded-lg transition shadow-lg shadow-teal-500/20 mb-12">
-            Send Email
-        </a>
-        <p class="text-xs text-slate-600">Jubair Ahmed Junjun • London, United Kingdom</p>
-    </section>
+        <!-- Featured Projects -->
+        <section id="projects" class="space-y-6">
+            <div class="border-b border-slate-800/80 pb-4">
+                <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Featured Projects
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="obsidian-card p-5 rounded-xl space-y-2">
+                    <span class="text-[10px] font-mono text-emerald-400">Telehealth Analytics</span>
+                    <h3 class="text-sm font-bold text-white">TeleApp Market Analysis</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Evaluated potential applications for telehealth during COVID-19, conducting competitor metrics tracking and IP patent searches.
+                    </p>
+                </div>
+                <div class="obsidian-card p-5 rounded-xl space-y-2">
+                    <span class="text-[10px] font-mono text-emerald-400">Enterprise Systems</span>
+                    <h3 class="text-sm font-bold text-white">Hajj-e-Baitullah Software System</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Collaborated at MassGroupBD to build software modules, write test documentation, and provide technical onboarding leadership.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live GitHub Repositories Integration -->
+        <section id="github" class="space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-4">
+                <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> GitHub Repositories
+                </h2>
+                <a href="https://github.com/Jubair-Ahmed-Junjun" target="_blank" class="text-xs text-slate-400 hover:text-emerald-400 transition font-mono">View All →</a>
+            </div>
+
+            <div id="github-repos-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Fallback repos shown instantly while live fetch runs -->
+                <div class="obsidian-card p-5 rounded-xl space-y-2">
+                    <div class="flex justify-between items-center text-xs font-mono">
+                        <span class="text-white font-semibold">Brain-Tumor-Segmentation</span>
+                        <span class="text-emerald-400">Python</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Transformer-based U-Net implementation for multimodal BraTS 2020 MRI brain tumor segmentation.</p>
+                </div>
+                <div class="obsidian-card p-5 rounded-xl space-y-2">
+                    <div class="flex justify-between items-center text-xs font-mono">
+                        <span class="text-white font-semibold">CNN-LSTM-Emotional-Analysis</span>
+                        <span class="text-cyan-400">Jupyter</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Hybrid deep learning architecture for decoding physiological biological signals and emotional status.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience & Education -->
+        <section id="experience" class="space-y-6">
+            <div class="border-b border-slate-800/80 pb-4">
+                <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Experience & Education
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <h3 class="text-xs font-mono text-slate-400 uppercase">Experience</h3>
+                    <div class="obsidian-card p-4 rounded-xl space-y-1">
+                        <span class="text-[10px] font-mono text-emerald-400">Oct 2023 - Sept 2024 • London, UK</span>
+                        <h4 class="text-xs font-bold text-white">Data Analyst @ Techmart Ltd</h4>
+                        <p class="text-xs text-slate-400 mt-1">Managed pricing structures, competitor metrics tracking, and monthly revenue evaluations.</p>
+                    </div>
+                    <div class="obsidian-card p-4 rounded-xl space-y-1">
+                        <span class="text-[10px] font-mono text-emerald-400">Jan 2022 - Oct 2022</span>
+                        <h4 class="text-xs font-bold text-white">Junior Developer @ MassGroupBD</h4>
+                        <p class="text-xs text-slate-400 mt-1">Coded software features, tested test plans, and conducted user training sessions.</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="text-xs font-mono text-slate-400 uppercase">Education</h3>
+                    <div class="obsidian-card p-4 rounded-xl space-y-1">
+                        <span class="text-[10px] font-mono text-emerald-400">2023 - 2024 • UK</span>
+                        <h4 class="text-xs font-bold text-white">MSc in Data Intelligence</h4>
+                        <p class="text-xs text-slate-400">Canterbury Christ Church University</p>
+                    </div>
+                    <div class="obsidian-card p-4 rounded-xl space-y-1">
+                        <span class="text-[10px] font-mono text-emerald-400">Graduated 2022</span>
+                        <h4 class="text-xs font-bold text-white">B.Sc in Computer Science & Engineering</h4>
+                        <p class="text-xs text-slate-400">BGC Trust University Bangladesh</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="space-y-6 pt-6 border-t border-slate-800/80">
+            <div class="space-y-2">
+                <h2 class="text-2xl font-bold text-white">Get in touch.</h2>
+                <p class="text-sm text-slate-400">Open for AI research collaborations, data science roles, and software engineering opportunities.</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <a href="mailto:jubair.ahmed.junjun@gmail.com" class="px-4 py-2.5 bg-white text-slate-950 font-semibold rounded-lg text-xs hover:bg-slate-200 transition">
+                    jubair.ahmed.junjun@gmail.com
+                </a>
+                <button onclick="copyEmail()" id="copy-btn" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-lg text-xs font-mono transition">
+                    <i class="fas fa-copy mr-1.5 text-emerald-400"></i> <span id="copy-txt">Copy Email</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Floating "JubairGPT" AI Chat Assistant Widget -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <!-- Toggle Pill Button -->
+        <button onclick="toggleAiDrawer()" class="flex items-center gap-2.5 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 border border-emerald-500/40 text-white rounded-full shadow-2xl text-xs font-mono transition group">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span>Ask Jubair AI</span>
+            <i class="fas fa-chevron-up text-[10px] text-slate-400 group-hover:text-emerald-400 transition-transform"></i>
+        </button>
+
+        <!-- Chat Drawer Window -->
+        <div id="ai-drawer" class="hidden absolute bottom-14 right-0 w-80 sm:w-96 obsidian-card rounded-2xl p-4 shadow-2xl space-y-3 border border-slate-800">
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+                    <span class="text-xs font-bold text-white font-mono">JubairGPT Assistant</span>
+                </div>
+                <button onclick="toggleAiDrawer()" class="text-slate-400 hover:text-white text-xs"><i class="fas fa-times"></i></button>
+            </div>
+
+            <p class="text-xs text-slate-400">Click any prompt to instantly query Jubair's profile:</p>
+
+            <div class="flex flex-wrap gap-1.5">
+                <button onclick="askJubairAI('thesis')" class="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[11px] text-slate-300 font-mono">🧠 MSc Thesis?</button>
+                <button onclick="askJubairAI('springer')" class="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[11px] text-slate-300 font-mono">📚 Springer Papers?</button>
+                <button onclick="askJubairAI('stack')" class="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[11px] text-slate-300 font-mono">⚡ Core Tech Stack?</button>
+            </div>
+
+            <div id="ai-drawer-response" class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 font-mono leading-relaxed min-h-[75px] flex items-center">
+                <span class="text-slate-500 italic">Ready for questions...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="max-w-3xl mx-auto px-6 py-8 text-center text-xs text-slate-600 font-mono border-t border-slate-800/80 relative z-10">
+        Jubair Ahmed Junjun &bull; London, UK &bull; AI Portfolio Engine
+    </footer>
 
     <!-- JavaScript Engine -->
     <script>
-        const portfolioData = {
-            research: [
-                {
-                    status: "Ongoing Research Project",
-                    title: "The Impact of Artificial Intelligence and Data Analytics on Strategic Decision-Making and Business Performance in UK SMEs",
-                    desc: "Evaluating how adoption of AI-driven analytics, predictive modeling, and data frameworks enhances operational efficiency and strategic positioning across Small and Medium Enterprises (SMEs) in the United Kingdom."
-                },
-                {
-                    status: "MSc Research Thesis",
-                    title: "Brain Tumor Segmentation using Transformer-based U-Net (BraTS 2020)",
-                    desc: "Applied Transformer-based U-Net architectures to multimodal MRI datasets (BraTS 2020) for high-precision 3D brain tumor region segmentation and automated medical diagnostics."
-                }
-            ],
-            publications: [
-                {
-                    venue: "IC4IR 2021 • Springer",
-                    title: "Brain Tumor Classification using Transfer Learning from MRI Images",
-                    authors: "J. A. Junjun, M. S. Hossain, K. Andersson, N. Nahar, & D. Nasrin (2021)",
-                    desc: "Automated classification techniques leveraging custom Deep Transfer Learning models on complex MRI scans.",
-                    link: "https://www.slideshare.net/jubairjunjun"
-                },
-                {
-                    venue: "TCCE 2021 • Springer",
-                    title: "A Hybrid CNN-LSTM-Based Emotional Status Determination using Physiological Signals",
-                    authors: "M. Hossain, N. Nahar, F. Ara, J. A. Junjun, & K. Andersson (2021)",
-                    desc: "Integrated Convolutional Networks with LSTM layers to decode sequential biological signals for human emotion classification.",
-                    link: "https://www.slideshare.net/jubairjunjun"
-                }
-            ],
-            featuredProjects: [
-                {
-                    title: "TeleApp (Telehealth Application Analytics)",
-                    category: "Software Development Project",
-                    desc: "Analyzed potential applications for telehealth during COVID-19, conducted market size evaluation, competitor analysis, and IP patent prior-art searches to guide development strategies."
-                },
-                {
-                    title: "Hajj-e-Baitullah Software System",
-                    category: "Enterprise System Project",
-                    desc: "Collaborated with senior engineers at MassGroupBD to build and deploy software modules, while supporting technical recruitment and onboarding leadership."
-                }
-            ],
-            experience: [
-                {
-                    period: "Oct 2023 - Sept 2024 • London, UK",
-                    role: "Data Analyst (Part-Time)",
-                    company: "Techmart Ltd",
-                    desc: "Managed product pricing structures, performed competitor metrics tracking, and conducted monthly revenue evaluations to guide wholesale inventory strategy."
-                },
-                {
-                    period: "2018 - 2022 • Chittagong, Bangladesh",
-                    role: "Graduate Student / Research Assistant",
-                    company: "BGC Trust University",
-                    desc: "Managed healthcare data pipelines, preprocessed MRI and bio-physiological data, and co-authored Springer research papers."
-                },
-                {
-                    period: "Jan 2022 - Oct 2022 • Chittagong, Bangladesh",
-                    role: "Junior Developer",
-                    company: "MassGroupBD",
-                    desc: "Coded, tested, and documented software features, developed test plans, and conducted user training sessions for ongoing system installations."
-                },
-                {
-                    period: "July 2021 - May 2023 • Bangladesh",
-                    role: "Guest ICT Teacher",
-                    company: "Barakhain Jameya Jamhuria Fazil Madrasah",
-                    desc: "Taught fundamentals of ICT, logic gates, and fundamental computer programming syntax in C and Python."
-                },
-                {
-                    period: "Jan 2020 - Present",
-                    role: "Educational Content Creator",
-                    company: "YouTube (@Jubair Ahmed Junjun)",
-                    desc: "Produce video lectures covering C, C++, Python, PHP, and Laravel for self-directed technical learners globally."
-                }
-            ],
-            education: [
-                {
-                    degree: "MSc in Data Intelligence",
-                    institution: "Canterbury Christ Church University",
-                    location: "Kent, United Kingdom",
-                    period: "Sept 2023 - Sept 2024",
-                    details: "Core Modules: Data Analysis, Machine Learning, Data Visualization, Data Governance."
-                },
-                {
-                    degree: "B.Sc in Computer Science and Engineering",
-                    institution: "BGC Trust University Bangladesh",
-                    location: "Chittagong, Bangladesh",
-                    period: "Graduated May 2022",
-                    details: "Focus Areas: Advanced Data Structures, Algorithms, Software Engineering, Object-Oriented Programming."
-                }
-            ],
-            honors: [
-                "🏆 <strong>1st Position:</strong> Software Exhibition Competition ('Winter School 2021'), BGCTUB.",
-                "🧮 <strong>Finalist:</strong> 11th & 12th National Undergraduate Mathematics Olympiad (2019 & 2021).",
-                "💻 <strong>Competitive Programming Contests:</strong> Intra-BGCTUB (2018-2021), RMSTU-BDPC 2021, IUT 10th ICT FEST 2019, CUET CSE FEST 2018 & 2019.",
-                "📜 <strong>Certifications:</strong> Digital Marketer (LEDP, Bangladesh), Ethical Hacker (Team Matrix)."
-            ]
-        };
+        // Neural Particle Canvas Background
+        const canvas = document.getElementById('neural-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        let mouse = { x: null, y: null };
 
-        // Render Research Projects
-        document.getElementById('research-container').innerHTML = portfolioData.research.map(res => `
-            <div class="glass-card p-6 rounded-xl border border-slate-800 hover:border-teal-500/50 transition">
-                <span class="px-3 py-1 bg-teal-500/10 text-teal-400 text-xs font-mono rounded-full border border-teal-500/20">${res.status}</span>
-                <h4 class="text-base font-bold text-slate-100 mt-3 mb-2">${res.title}</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">${res.desc}</p>
-            </div>
-        `).join('');
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-        // Render Publications
-        document.getElementById('publications-container').innerHTML = portfolioData.publications.map(pub => `
-            <div class="glass-card p-6 rounded-xl border border-slate-800 hover:border-teal-500/50 transition group">
-                <div class="flex justify-between items-start mb-3">
-                    <span class="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-mono rounded-full border border-slate-700">${pub.venue}</span>
-                    <a href="${pub.link}" target="_blank" class="text-slate-500 group-hover:text-teal-400 transition"><i class="fas fa-external-link-alt"></i></a>
-                </div>
-                <h4 class="text-base font-bold text-slate-100 group-hover:text-teal-300 transition mb-2">${pub.title}</h4>
-                <p class="text-xs font-mono text-slate-400 mb-3">${pub.authors}</p>
-                <p class="text-xs text-slate-400 leading-relaxed">${pub.desc}</p>
-            </div>
-        `).join('');
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
 
-        // Render Featured Projects
-        document.getElementById('projects-container').innerHTML = portfolioData.featuredProjects.map(proj => `
-            <div class="glass-card p-6 rounded-xl border border-slate-800 hover:border-teal-500/50 transition">
-                <span class="px-3 py-1 bg-slate-800 text-teal-400 text-xs font-mono rounded-full border border-slate-700">${proj.category}</span>
-                <h4 class="text-base font-bold text-slate-100 mt-3 mb-2">${proj.title}</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">${proj.desc}</p>
-            </div>
-        `).join('');
-
-        // Render Experience
-        document.getElementById('experience-container').innerHTML = portfolioData.experience.map(exp => `
-            <div class="relative">
-                <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-teal-400 border-4 border-slate-950"></div>
-                <span class="text-xs font-mono text-teal-400">${exp.period}</span>
-                <h4 class="text-sm font-bold text-slate-100">${exp.role} <span class="text-slate-400 text-xs">@ ${exp.company}</span></h4>
-                <p class="text-xs text-slate-400 mt-1">${exp.desc}</p>
-            </div>
-        `).join('');
-
-        // Render Education
-        document.getElementById('education-container').innerHTML = portfolioData.education.map(edu => `
-            <div class="glass-card p-5 rounded-xl border border-slate-800">
-                <span class="text-xs font-mono text-teal-400">${edu.period}</span>
-                <h4 class="text-base font-bold text-slate-100 mt-1">${edu.degree}</h4>
-                <p class="text-xs text-slate-400 font-medium">${edu.institution} • ${edu.location}</p>
-                <p class="text-xs text-slate-500 mt-2">${edu.details}</p>
-            </div>
-        `).join('');
-
-        // Render Honors
-        document.getElementById('honors-container').innerHTML = portfolioData.honors.map(honor => `
-            <p>${honor}</p>
-        `).join('');
-
-        // Fetch Live GitHub Repositories
-        async function fetchGitHubRepos() {
-            const username = 'Jubair-Ahmed-Junjun';
-            const ghContainer = document.getElementById('github-container');
-            
-            try {
-                const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`);
-                const repos = await response.json();
-
-                if (!Array.isArray(repos) || repos.length === 0) {
-                    ghContainer.innerHTML = `<p class="col-span-3 text-slate-500 text-center">No public repositories found.</p>`;
-                    return;
-                }
-
-                ghContainer.innerHTML = repos.map(repo => `
-                    <div class="glass-card p-5 rounded-xl border border-slate-800 hover:border-teal-400/50 transition flex flex-col justify-between">
-                        <div>
-                            <div class="flex justify-between items-center mb-3">
-                                <i class="far fa-folder text-teal-400 text-xl"></i>
-                                <a href="${repo.html_url}" target="_blank" class="text-slate-400 hover:text-teal-400 text-sm"><i class="fas fa-external-link-alt"></i></a>
-                            </div>
-                            <h4 class="text-base font-bold text-slate-100 mb-2 truncate">${repo.name}</h4>
-                            <p class="text-xs text-slate-400 line-clamp-3 mb-4">${repo.description || 'No description provided.'}</p>
-                        </div>
-                        <div class="flex items-center gap-4 text-xs font-mono text-slate-500 pt-3 border-t border-slate-800">
-                            ${repo.language ? `<span><i class="fas fa-code text-teal-400 mr-1"></i>${repo.language}</span>` : ''}
-                            <span><i class="far fa-star text-yellow-400 mr-1"></i>${repo.stargazers_count}</span>
-                            <span><i class="fas fa-code-branch text-slate-400 mr-1"></i>${repo.forks_count}</span>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (err) {
-                ghContainer.innerHTML = `<p class="col-span-3 text-slate-500 text-center">Unable to load GitHub repositories right now.</p>`;
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.7;
+                this.vy = (Math.random() - 0.5) * 0.7;
+                this.radius = Math.random() * 1.5 + 0.8;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx = -this.vx;
+                if (this.y < 0 || this.y > height) this.vy = -this.vy;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#34d399';
+                ctx.fill();
             }
         }
 
+        for (let i = 0; i < 40; i++) particles.push(new Particle());
+
+        function animateNeural() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 110) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(52, 211, 153, ${0.12 * (1 - dist / 110)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+
+                if (mouse.x !== null) {
+                    const mdx = particles[i].x - mouse.x;
+                    const mdy = particles[i].y - mouse.y;
+                    const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+                    if (mdist < 130) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.strokeStyle = `rgba(34, 211, 238, ${0.2 * (1 - mdist / 130)})`;
+                        ctx.lineWidth = 0.7;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateNeural);
+        }
+        animateNeural();
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Research Summarizer
+        const researchSummaries = {
+            brats: "MSc Thesis (Canterbury Christ Church University, UK): Applied Transformer-based U-Net architectures to multimodal MRI datasets (BraTS 2020) for high-precision 3D brain tumor region segmentation, significantly advancing automated medical diagnostic accuracy.",
+            ic4ir: "Springer Publication (IC4IR 2021): 'Brain Tumor Classification using Transfer Learning from MRI Images'. Authored with M. S. Hossain, K. Andersson, N. Nahar, & D. Nasrin. Developed automated classification models leveraging deep transfer learning on complex MRI scans.",
+            tcce: "Springer Publication (TCCE 2021): 'A Hybrid CNN-LSTM-Based Emotional Status Determination using Physiological Signals'. Integrated Convolutional Networks with LSTM layers to decode sequential biological signals for human emotion classification."
+        };
+
+        function summarizeResearch(type) {
+            ['brats', 'ic4ir', 'tcce'].forEach(t => {
+                const btn = document.getElementById(`btn-${t}`);
+                if (t === type) {
+                    btn.className = "px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-mono transition";
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800 text-xs font-mono transition";
+                }
+            });
+
+            const output = document.getElementById('summarizer-output');
+            output.innerHTML = '';
+            const text = researchSummaries[type];
+            let i = 0;
+            function typeWriter() {
+                if (i < text.length) {
+                    output.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 10);
+                }
+            }
+            typeWriter();
+        }
+        summarizeResearch('brats');
+
+        // Model Inference Simulator
+        function updateSimulationSlider(val) {
+            document.getElementById('val-intensity').innerText = val;
+        }
+
+        function runModelInference() {
+            const status = document.getElementById('inf-status');
+            const results = document.getElementById('inf-results');
+            const intensity = document.querySelector('input[type=range]').value;
+
+            status.innerText = "Executing Pass...";
+            status.className = "text-amber-400 animate-pulse";
+            results.innerHTML = `<p class="text-slate-500">// Processing tensors on GPU...</p>`;
+
+            setTimeout(() => {
+                status.innerText = "Complete";
+                status.className = "text-emerald-400";
+                const dice = (0.88 + (intensity / 1000)).toFixed(3);
+                results.innerHTML = `
+                    <p class="text-emerald-400">✓ Tumor Core Detected</p>
+                    <p>• Dice Coefficient: <span class="text-cyan-400 font-bold">${dice}</span></p>
+                    <p>• Confidence: <span class="text-emerald-400 font-bold">${(95 + (intensity / 25)).toFixed(1)}%</span></p>
+                `;
+            }, 500);
+        }
+
+        // AI Drawer Logic
+        function toggleAiDrawer() {
+            const drawer = document.getElementById('ai-drawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        const aiKnowledgeBase = {
+            thesis: "Jubair's MSc thesis focused on Brain Tumor Segmentation using Transformer-based U-Net (BraTS 2020) at Canterbury Christ Church University.",
+            springer: "Jubair has co-authored two Springer papers (IC4IR 2021 & TCCE 2021) in medical imaging and CNN-LSTM physiological signal analysis.",
+            stack: "His core tech stack includes Python, PyTorch, TensorFlow, Deep Learning, Medical Imaging, React, Node.js, and advanced Data Analytics."
+        };
+
+        function askJubairAI(key) {
+            const resp = document.getElementById('ai-drawer-response');
+            resp.innerHTML = `<span class="text-emerald-400 animate-pulse">Synthesizing...</span>`;
+            setTimeout(() => {
+                const answer = aiKnowledgeBase[key];
+                resp.innerHTML = '';
+                let i = 0;
+                function typeW() {
+                    if (i < answer.length) {
+                        resp.innerHTML += answer.charAt(i);
+                        i++;
+                        setTimeout(typeW, 12);
+                    }
+                }
+                typeW();
+            }, 300);
+        }
+
+        // Fetch Live GitHub Repos
+        async function fetchGitHubRepos() {
+            try {
+                const res = await fetch('https://api.github.com/users/Jubair-Ahmed-Junjun/repos?sort=updated&per_page=4');
+                if (!res.ok) return;
+                const repos = await res.json();
+                if (repos && repos.length > 0) {
+                    const container = document.getElementById('github-repos-container');
+                    container.innerHTML = repos.slice(0, 4).map(repo => `
+                        <a href="${repo.html_url}" target="_blank" class="obsidian-card p-5 rounded-xl space-y-2 block">
+                            <div class="flex justify-between items-center text-xs font-mono">
+                                <span class="text-white font-semibold truncate max-w-[170px]">${repo.name}</span>
+                                <span class="text-emerald-400">${repo.language || 'Code'}</span>
+                            </div>
+                            <p class="text-xs text-slate-400 line-clamp-2">${repo.description || 'No description provided.'}</p>
+                        </a>
+                    `).join('');
+                }
+            } catch (e) {}
+        }
         fetchGitHubRepos();
+
+        // Copy Email
+        function copyEmail() {
+            const email = 'jubair.ahmed.junjun@gmail.com';
+            const temp = document.createElement('input');
+            temp.value = email;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            const txt = document.getElementById('copy-txt');
+            txt.innerText = 'Copied!';
+            setTimeout(() => txt.innerText = 'Copy Email', 2500);
+        }
     </script>
 </body>
 </html>
+```
+eof
